@@ -150,13 +150,10 @@ class ListPerformanceComparisonTest {
     @Test
     @DisplayName("Тест граничных условий - OPERATIONS_COUNT влияет на время")
     void testBoundaryConditions_OperationsCountAffectsTime() {
-        // This test verifies that the performance testing logic is working
-        // by ensuring that operations that should be faster are indeed faster
 
         List<ListPerformanceComparison.TestResult> results =
                 ListPerformanceComparison.compareArrayListAndLinkedList();
 
-        // Для ArrayList: доступ к первому/последнему элементу должен быть быстрее случайного доступа
         ListPerformanceComparison.TestResult arrayListGetFirst = findResult(results, "ArrayList", "get(первый)");
         ListPerformanceComparison.TestResult arrayListGetRandom = findResult(results, "ArrayList", "get(случайный)");
 
