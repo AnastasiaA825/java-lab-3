@@ -6,13 +6,41 @@ import org.junit.jupiter.api.DisplayName;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Класс для модульного тестирования функциональности класса {@link ListPerformanceComparison}.
+ * Тесты проверяют корректность работы методов сравнения производительности, структуру
+ * возвращаемых результатов и базовые свойства выполнения операций.
+ *
+ * <p>Все тесты выполняются с использованием фреймворка JUnit 5.
+ *
+ * @see ListPerformanceComparison
+ * @see ListPerformanceComparison.TestResult
+ */
 class ListPerformanceComparisonTest {
 
+    /**
+     * Метод, выполняемый перед каждым тестом.
+     * Может использоваться для инициализации общих ресурсов или состояния теста.
+     * В текущей реализации не выполняет конкретных действий, но оставлен для
+     * демонстрации возможности настройки предварительных условий.
+     */
     @BeforeEach
     void setUp() {
         ListPerformanceComparison performanceComparator = new ListPerformanceComparison();
     }
 
+    /**
+     * Тест проверяет, что метод сравнения возвращает непустые результаты
+     * для обоих типов списков: ArrayList и LinkedList.
+     *
+     * <p>Проверяемые утверждения:
+     * <ul>
+     *   <li>Результаты не должны быть null</li>
+     *   <li>Список результатов не должен быть пустым</li>
+     *   <li>Должны присутствовать результаты для ArrayList</li>
+     *   <li>Должны присутствовать результаты для LinkedList</li>
+     * </ul>
+     */
     @Test
     @DisplayName("Тест сравнения ArrayList и LinkedList - возвращает не пустой результат")
     void testCompareArrayListAndLinkedList_ReturnsNonEmptyResults() {
@@ -36,6 +64,18 @@ class ListPerformanceComparisonTest {
         assertTrue(linkedListCount > 0, "Должны быть результаты для LinkedList");
     }
 
+    /**
+     * Тест проверяет, что все результаты тестирования имеют положительное время выполнения
+     * и корректно заполненные поля.
+     *
+     * <p>Проверяемые утверждения:
+     * <ul>
+     *   <li>Время выполнения каждой операции должно быть больше 0</li>
+     *   <li>Название операции не должно быть null</li>
+     *   <li>Название операции не должно быть пустой строкой</li>
+     *   <li>Тип списка не должен быть null</li>
+     * </ul>
+     */
     @Test
     @DisplayName("Тест результатов - все операции имеют положительное время")
     void testAllResults_HavePositiveTime() {
@@ -53,6 +93,13 @@ class ListPerformanceComparisonTest {
         }
     }
 
+    /**
+     * Тест проверяет, что результаты содержат все ожидаемые операции тестирования
+     * для обоих типов списков.
+     *
+     * <p>Проверяемые операции включают все основные операции, определенные
+     * в классе {@link ListPerformanceComparison}.
+     */
     @Test
     @DisplayName("Тест структуры результатов - проверка всех операций")
     void testResultsStructure_ContainsAllExpectedOperations() {
@@ -82,6 +129,13 @@ class ListPerformanceComparisonTest {
         }
     }
 
+    /**
+     * Тест проверяет, что разные операции имеют разное время выполнения,
+     * что демонстрирует реальные различия в производительности.
+     *
+     * <p>Тест анализирует вариативность времени выполнения операций
+     * как для ArrayList, так и для LinkedList.
+     */
     @Test
     @DisplayName("Тест производительности - разное время для разных операций")
     void testPerformance_DifferentTimesForDifferentOperations() {
@@ -106,6 +160,13 @@ class ListPerformanceComparisonTest {
                 "Должны быть различия во времени выполнения разных операций для LinkedList");
     }
 
+    /**
+     * Тест проверяет корректность создания объектов {@link ListPerformanceComparison.TestResult}
+     * и доступность их полей.
+     *
+     * <p>Проверяет соответствие установленных значений при создании объекта
+     * значениям, возвращаемым при обращении к полям.
+     */
     @Test
     @DisplayName("Тест TestResult класса - корректное создание и геттеры")
     void testTestResultClass_CreationAndGetters() {
@@ -124,6 +185,18 @@ class ListPerformanceComparisonTest {
         assertEquals(time, result.time, "Время должно совпадать");
     }
 
+    /**
+     * Тест проверяет консистентность результатов при повторных запусках.
+     *
+     * <p>Проверяет, что при многократном вызове метода сравнения:
+     * <ul>
+     *   <li>Количество результатов остается одинаковым</li>
+     *   <li>Структура результатов (типы списков и операции) сохраняется</li>
+     * </ul>
+     *
+     * <p>Примечание: абсолютное время выполнения может незначительно отличаться
+     * из-за особенностей работы JVM и окружения выполнения.
+     */
     @Test
     @DisplayName("Тест консистентности - повторные запуски дают схожие результаты")
     void testConsistency_SimilarResultsOnMultipleRuns() {
@@ -147,6 +220,14 @@ class ListPerformanceComparisonTest {
         }
     }
 
+    /**
+     * Тест проверяет граничные условия и ожидаемые различия в производительности
+     * для определенных операций.
+     *
+     * <p>В частности, проверяет, что для ArrayList доступ к первому элементу
+     * выполняется быстрее, чем случайный доступ, что соответствует ожидаемому
+     * поведению этой структуры данных.
+     */
     @Test
     @DisplayName("Тест граничных условий - OPERATIONS_COUNT влияет на время")
     void testBoundaryConditions_OperationsCountAffectsTime() {
@@ -161,7 +242,14 @@ class ListPerformanceComparisonTest {
                 "Для ArrayList доступ к первому элементу должен быть быстрее случайного доступа");
     }
 
-    // Вспомогательные методы
+    /**
+     * Вспомогательный метод для проверки наличия вариативности во времени выполнения
+     * различных операций.
+     *
+     * @param results список результатов тестирования для одного типа списка
+     * @return true если есть хотя бы два результата с разным временем выполнения,
+     *         false в противном случае
+     */
     private boolean hasTimeVariation(List<ListPerformanceComparison.TestResult> results) {
         if (results.size() < 2) return false;
 
@@ -174,6 +262,16 @@ class ListPerformanceComparisonTest {
         return false;
     }
 
+    /**
+     * Вспомогательный метод для поиска конкретного результата тестирования
+     * по типу списка и названию операции.
+     *
+     * @param results полный список результатов тестирования
+     * @param listType тип списка для поиска ("ArrayList" или "LinkedList")
+     * @param operation название операции для поиска
+     * @return найденный объект TestResult
+     * @throws AssertionError если результат не найден
+     */
     private ListPerformanceComparison.TestResult findResult(
             List<ListPerformanceComparison.TestResult> results,
             String listType, String operation) {
